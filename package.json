@@ -4,10 +4,15 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "nuxt dev --host 0.0.0.0",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "prisma:generate": "npx prisma generate",
+    "prisma:migrate": "npx prisma migrate",
+    "prisma:studio": "npx prisma studio",
+    "prisma:schema": "npx prisma db push",
+    "prisma": "npm run prisma:generate && npm run prisma:migrate && npm run prisma:schema"
   },
   "dependencies": {
     "@nuxt/fonts": "^0.11.2",
@@ -15,6 +20,7 @@
     "@nuxt/ui": "^3.1.1",
     "@pinia/nuxt": "^0.11.0",
     "@prisma/nuxt": "^0.3.0",
+    "gsap": "^3.13.0",
     "morgan": "^1.10.0",
     "notivue": "^2.4.5",
     "nuxt": "^3.17.2",

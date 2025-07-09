@@ -39,11 +39,22 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      title: "Nuxt 3 Prisma Starter",
+      title: "TEMI -Your pocket-sized bestie",
       meta: [
         { charset: "utf-8" },
         { name: "viewport", content: "width=device-width,initial-scale=1" },
       ],
+    },
+  },
+  vite: {
+    server: {
+      allowedHosts: ["958d-105-160-105-173.ngrok-free.app"],
+    },
+    resolve: {
+      alias: {
+        ".prisma/client/index-browser":
+          "./node_modules/.prisma/client/index-browser.js",
+      },
     },
   },
   notivue: {
