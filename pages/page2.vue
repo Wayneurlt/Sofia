@@ -1,10 +1,11 @@
 <template>
+    <HomeNavbar />
   <div class="min-h-screen flex items-center justify-center bg-blue-100 font-sans">
     <div class="text-center p-8 bg-transparent rounded-2xl max-w-md mx-4">
       <!-- Placeholder image (replace with your own) -->
       <img src="/assets/images/dat.png" alt="Cute Illustration" class="mx-auto mb-6 w-32 h-32  object-cover " />
       
-      <h1 class="text-4xl text-blue-600 mb-6 animate-fade-in">Then we went on our first date…<br></br>And I realized—yep, I want this girl.</h1>
+      <h1 class="text-4xl text-blue-600 mb-6 animate-fade-in">Then we went out for coffee…<br></br>And I realized—yep, I want this girl.</h1>
       <!-- <p class="text-gray-700 text-lg mb-6 animate-fade-in delay-100">
         Then we went on our first date… And I realized—yep, I want this girl.
       </p> -->

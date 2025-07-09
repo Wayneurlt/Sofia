@@ -1,4 +1,5 @@
 <template>
+    <HomeNavbar />
   <div
     class="min-h-screen flex items-center justify-center bg-green-100 font-sans"
   >
@@ -11,7 +12,7 @@
       />
 
       <h1 class="text-4xl text-green-600 mb-6 animate-fade-in">
-        Recently, we met. And somehow, you've been on my mind ever since.
+        You've been on my mind ever since I met you.
       </h1>
       <!-- <p class="text-gray-700 text-lg mb-6 animate-fade-in delay-100">
         Recently, we met. And somehow, you've been on my mind ever since.

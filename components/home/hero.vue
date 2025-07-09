@@ -4,7 +4,7 @@
         <!-- Placeholder image (replace with your own) -->
         <img src="/assets/images/hey.png" alt="Cute Illustration" class="mx-auto mb-6 w-32 h-32  object-cover" />
         
-        <h1 class="text-5xl text-pink-600 mb-6 animate-fade-in">Heyyy Pretty Girl!</h1>
+        <h1 class="text-5xl text-pink-600 mb-6 animate-fade-in">Heyyy Sofia!</h1>
         <!-- <p class="text-gray-700 text-lg mb-6 animate-fade-in delay-100">You are amazing, and don't you ever forget it!</p> -->
         
         <div class="flex flex-col items-center mt-6">

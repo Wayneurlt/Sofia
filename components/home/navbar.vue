@@ -13,8 +13,8 @@
         <NuxtLink to="/" class="flex items-center">
           <ClientOnly>
             <img
-              class="h-12 lg:h-12 xl:h-9 2xl:h-10 w-auto"
-              src="/public/logo.webp"
+              class="h-20 lg:h-20 xl:h-12 2xl:h-20 w-auto"
+              src="/assets/images/logo.png"
               alt="Logo"
             />
           </ClientOnly>

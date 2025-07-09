@@ -1,4 +1,5 @@
 <template>
+    <HomeNavbar />
   <div class="min-h-screen flex items-center justify-center bg-yellow-100 font-sans">
     <div class="text-center p-8 bg-transparent rounded-2xl max-w-md mx-4">
       <!-- Placeholder image (replace with your own) -->
