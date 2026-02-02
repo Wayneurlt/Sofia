@@ -1,61 +1,29 @@
 <template>
-    <nav
-      :class="[ 
-        'px-8 py-3 xl:py-4 fixed top-0 w-full z-[1000]',
-        {
-          'dark:bg-white bg-satinlinen': isScrolled,
-          'bg-transparent': !isScrolled,
-        },
-      ]"
-    >
-      <div class="flex justify-between w-full place-items-center">
-        <!-- Enlarged Logo on the Left -->
-        <NuxtLink to="/" class="flex items-center">
-          <ClientOnly>
-            <img
-              class="h-20 lg:h-20 xl:h-12 2xl:h-20 w-auto"
-              src="/assets/images/logo.png"
-              alt="Logo"
-            />
-          </ClientOnly>
-        </NuxtLink>
-  
-  
-  
-  
-        <div class="flex items-center gap-5">
-  </div>
-  
-      </div>
-    </nav>
-  </template>
-  
-  <script setup lang="ts">
-  let isScrolled = ref(false);
-  
-  onMounted(() => {
-    window.addEventListener("scroll", () => {
-      isScrolled.value = window.scrollY > 0;
-    });
+  <nav
+    :class="[
+      'px-4 sm:px-6 py-3 fixed top-0 w-full z-[1000] transition-colors duration-200',
+      isScrolled ? 'bg-[#faf9f7]/95 border-b border-stone-200' : 'bg-transparent'
+    ]"
+  >
+    <div class="flex justify-between items-center max-w-3xl mx-auto">
+      <NuxtLink to="/" class="text-stone-600 hover:text-stone-800 text-sm font-medium transition-colors">
+        For Sofia
+      </NuxtLink>
+      <NuxtLink
+        to="/the-question"
+        class="text-stone-600 hover:text-stone-800 text-sm font-medium transition-colors"
+      >
+        Skip to question
+      </NuxtLink>
+    </div>
+  </nav>
+</template>
+
+<script setup lang="ts">
+const isScrolled = ref(false);
+onMounted(() => {
+  window.addEventListener('scroll', () => {
+    isScrolled.value = window.scrollY > 20;
   });
-  
-  const colorMode = useColorMode();
-  const isDark = computed({
-    get() {
-      return colorMode.value === "dark";
-    },
-    set() {
-      colorMode.preference = colorMode.value === "dark" ? "light" : "dark";
-    },
-  });
-  </script>
-  
-  <style>
-  .item-hover:hover .move-left {
-    transform: translateX(5px);
-    opacity: 1;
-    transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
-    cursor: pointer;
-  }
-  </style>
-  
+});
+</script>

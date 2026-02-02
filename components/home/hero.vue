@@ -1,34 +1,70 @@
 <template>
-    <div class="min-h-screen flex items-center justify-center bg-pink-100 font-sans">
-      <div class="text-center p-8 bg-transparent rounded-2xl max-w-md mx-4">
-        <!-- Placeholder image (replace with your own) -->
-        <img src="/assets/images/hey.png" alt="Cute Illustration" class="mx-auto mb-6 w-32 h-32  object-cover" />
+    <div class="min-h-screen flex items-center justify-center bg-[#faf9f7] font-sans">
+      <div class="text-center p-8 sm:p-12 max-w-md mx-4">
+        <!-- Image -->
+        <div v-if="showImage" class="animate-fade-in mb-8">
+          <img 
+            src="/assets/images/hey.png" 
+            alt="For Sofia" 
+            class="mx-auto w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-full"
+          />
+        </div>
         
-        <h1 class="text-5xl text-pink-600 mb-6 animate-fade-in">Heyyy Sofia!</h1>
-        <!-- <p class="text-gray-700 text-lg mb-6 animate-fade-in delay-100">You are amazing, and don't you ever forget it!</p> -->
+        <!-- Name -->
+        <h1 v-if="showName" class="text-4xl sm:text-5xl font-light text-stone-700 mb-6 animate-fade-in">
+          Sofia
+        </h1>
         
-        <div class="flex flex-col items-center mt-6">
+        <!-- Message -->
+        <div v-if="showMessage" class="animate-fade-in mb-10 px-2">
+          <p class="text-lg sm:text-xl text-stone-500 leading-relaxed">
+            I have something to ask you.
+          </p>
+        </div>
+        
+        <!-- Button -->
+        <div v-if="showButton" class="animate-fade-in">
           <NuxtLink 
-            to="/page1" 
-            class="px-6 py-3 bg-pink-500 text-white rounded-lg shadow hover:bg-pink-600 transition duration-300 transform hover:scale-105"
+            to="/valentines-message" 
+            class="inline-block px-8 sm:px-10 py-3 sm:py-3.5 text-stone-600 text-base font-medium rounded-full border border-stone-300 hover:border-stone-400 hover:bg-stone-50 transition-colors duration-200"
           >
-            Next
+            Continue
           </NuxtLink>
         </div>
       </div>
     </div>
   </template>
   
-  <script setup>
-  // No additional logic needed for now
+  <script setup lang="ts">
+  import { ref, onMounted } from 'vue';
+  
+  const showImage = ref(false);
+  const showName = ref(false);
+  const showMessage = ref(false);
+  const showButton = ref(false);
+  
+  onMounted(async () => {
+    // Quick sequence of reveals
+    await new Promise(resolve => setTimeout(resolve, 200));
+    showImage.value = true;
+    
+    await new Promise(resolve => setTimeout(resolve, 250));
+    showName.value = true;
+    
+    await new Promise(resolve => setTimeout(resolve, 250));
+    showMessage.value = true;
+    
+    await new Promise(resolve => setTimeout(resolve, 300));
+    showButton.value = true;
+  });
+  
   </script>
   
   <style scoped>
-  /* Custom animations */
   @keyframes fade-in {
     from {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(12px);
     }
     to {
       opacity: 1;
@@ -37,10 +73,6 @@
   }
   
   .animate-fade-in {
-    animation: fade-in 1s ease-out;
-  }
-  
-  .delay-100 {
-    animation-delay: 0.1s;
+    animation: fade-in 0.4s ease-out;
   }
   </style>

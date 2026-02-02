@@ -1,75 +1,56 @@
-# Nuxt Minimal Starter
+# 💕 Will You Be My Valentine, Sofia?
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+A romantic web application built with Nuxt 3 to ask Sofia to be my Valentine!
 
-## Setup
+## ✨ What's Inside
 
-Make sure to install dependencies:
+This is a beautiful, interactive Valentine's Day proposal website featuring:
+- 🏠 Animated homepage with floating hearts
+- 💝 Photo gallery showcasing our special moments
+- ❤️ Interactive "Will you be my Valentine?" page
+- 📸 Memories page with our favorite photos
+- 🎉 Celebration animations and effects
+
+## 🚀 Quick Start
+
+### Setup
+
+Install dependencies:
 
 ```bash
-# npm
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
+### Development
 
-Start the development server on `http://localhost:3000`:
+Run the development server at `http://localhost:3000`:
 
 ```bash
-# npm
 npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
+### Production
 
-Build the application for production:
+Build for production:
 
 ```bash
-# npm
 npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
 npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## 📖 Full Documentation
+
+See [VALENTINES_README.md](./VALENTINES_README.md) for detailed information about:
+- Features and design
+- Project structure
+- Customization options
+- User flow
+- Tips for the big reveal
+
+## 💖 Made with Love
+
+Built with Nuxt 3, Tailwind CSS, and lots of love for Sofia.
+
+---
+
+*Good luck! 💕*
