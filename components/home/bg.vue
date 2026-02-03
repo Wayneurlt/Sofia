@@ -80,7 +80,7 @@
   </script>
   
   <style scoped>
-  /* Spotlight Animation */
+ 
   .animate-spotlight {
     animation: spotlight-anim ease-in-out v-bind(durationInSeconds) forwards;
     animation-delay: v-bind(delayInSeconds);
