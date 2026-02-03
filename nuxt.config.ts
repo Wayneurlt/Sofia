@@ -39,7 +39,7 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      title: "Sofia",
+      title: "Sophia",
       meta: [
         { charset: "utf-8" },
         { name: "viewport", content: "width=device-width,initial-scale=1" },

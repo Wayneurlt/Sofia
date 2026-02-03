@@ -1,6 +1,6 @@
-# 💕 Will You Be My Valentine, Sofia?
+# 💕 Will You Be My Valentine, Sophia?
 
-A romantic web application built with Nuxt 3 to ask Sofia to be my Valentine!
+A romantic web application built with Nuxt 3 to ask Sophia to be my Valentine!
 
 ## ✨ What's Inside
 
@@ -49,7 +49,7 @@ See [VALENTINES_README.md](./VALENTINES_README.md) for detailed information abou
 
 ## 💖 Made with Love
 
-Built with Nuxt 3, Tailwind CSS, and lots of love for Sofia.
+Built with Nuxt 3, Tailwind CSS, and lots of love for Sophia.
 
 ---
 

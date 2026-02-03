@@ -2,7 +2,7 @@
 
 ## What We've Done
 
-Your project has been transformed into a romantic Valentine's Day proposal website for Sofia! 
+Your project has been transformed into a romantic Valentine's Day proposal website for Sophia! 
 
 ### ✅ Changes Made
 
@@ -144,4 +144,4 @@ Check:
 
 ---
 
-**Good luck! May Sofia say YES! 💕**
+**Good luck! May Sophia say YES! 💕**

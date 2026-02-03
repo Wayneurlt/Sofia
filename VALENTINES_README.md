@@ -1,6 +1,6 @@
-# 💕 Sofia's Valentine's Day Surprise
+# 💕 Sophia's Valentine's Day Surprise
 
-A beautiful, romantic web application built to ask Sofia to be your Valentine! 
+A beautiful, romantic web application built to ask Sophia to be your Valentine! 
 
 ## ✨ Features
 
@@ -52,7 +52,7 @@ A beautiful, romantic web application built to ask Sofia to be your Valentine!
 ## 📁 Project Structure
 
 ```
-Sofia/
+Sophia/
 ├── pages/
 │   ├── index.vue              # Homepage with initial greeting
 │   ├── valentines-message.vue # Showcases the 3 images with romantic messages
@@ -105,7 +105,7 @@ You can change these throughout the components to match your preference.
 
 ## 🎉 Tips for the Big Reveal
 
-1. **Test First**: Make sure everything works smoothly before showing Sofia
+1. **Test First**: Make sure everything works smoothly before showing Sophia
 2. **Good Internet**: Ensure you have a stable connection
 3. **Full Screen**: Show it on a large screen for maximum impact
 4. **Privacy**: Make sure you're in a comfortable, private setting
@@ -128,8 +128,8 @@ Works on all modern browsers:
 
 ## 🎊 Good Luck!
 
-May Sofia say YES! 💕
+May Sophia say YES! 💕
 
 ---
 
-Made with ❤️ for Sofia
+Made with ❤️ for Sophia
