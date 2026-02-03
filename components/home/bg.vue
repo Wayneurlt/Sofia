@@ -1,6 +1,6 @@
 <template>
     <div
-      :class="`relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-slate-950 w-full rounded-md z-0 $`"
+      class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-slate-950 w-full rounded-md z-0"
     >
       <div
         class="relative isolate z-0 flex w-full flex-1 scale-y-125 items-center justify-center"
@@ -80,26 +80,34 @@
   </script>
   
   <style scoped>
- 
+  /* Spotlight: horizontal expansion */
   .animate-spotlight {
-    animation: spotlight-anim ease-in-out v-bind(durationInSeconds) forwards;
+    animation-name: spotlight-keyframes;
+    animation-timing-function: ease-in-out;
+    animation-duration: v-bind(durationInSeconds);
     animation-delay: v-bind(delayInSeconds);
+    animation-fill-mode: forwards;
   }
-  
-  /* Glowing Line Animation */
+
+  /* Glowing line: horizontal expansion */
   .animate-glowing-line {
-    animation: glowing-line-anim ease-in-out v-bind(durationInSeconds) forwards;
+    animation-name: glowing-line-keyframes;
+    animation-timing-function: ease-in-out;
+    animation-duration: v-bind(durationInSeconds);
     animation-delay: v-bind(delayInSeconds);
+    animation-fill-mode: forwards;
   }
-  
-  /* Conic Gradient Animation */
+
+  /* Conic gradient: opacity and width */
   .animate-conic-gradient {
-    animation: conic-gradient-anim ease-in-out v-bind(durationInSeconds) forwards;
+    animation-name: conic-gradient-keyframes;
+    animation-timing-function: ease-in-out;
+    animation-duration: v-bind(durationInSeconds);
     animation-delay: v-bind(delayInSeconds);
+    animation-fill-mode: forwards;
   }
-  
-  /* Keyframes for Spotlight */
-  @keyframes spotlight-anim {
+
+  @keyframes spotlight-keyframes {
     from {
       width: 8rem;
     }
@@ -107,9 +115,8 @@
       width: 16rem;
     }
   }
-  
-  /* Keyframes for Glowing Line */
-  @keyframes glowing-line-anim {
+
+  @keyframes glowing-line-keyframes {
     from {
       width: 15rem;
     }
@@ -117,9 +124,8 @@
       width: 30rem;
     }
   }
-  
-  /* Keyframes for Conic Gradient */
-  @keyframes conic-gradient-anim {
+
+  @keyframes conic-gradient-keyframes {
     from {
       opacity: 0.5;
       width: 15rem;
@@ -129,5 +135,5 @@
       width: 30rem;
     }
   }
-  </style>
+</style>
   
