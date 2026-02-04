@@ -1,28 +1,28 @@
 <template>
-  <div class="min-h-screen page-bg font-sans safe-area-padding after-yes-page">
-    <div class="after-yes-inner max-w-xl mx-auto px-4 sm:px-6 py-8 sm:py-12 pb-24 flex flex-col items-center justify-center text-center">
-      <p v-if="showLine1" class="text-rose-600 text-sm sm:text-base font-medium uppercase tracking-wider mb-4 animate-fade-in">
+  <div class="min-h-screen page-bg safe-area-padding after-yes-page relative">
+    <div class="after-yes-inner max-w-xl mx-auto px-4 sm:px-6 py-8 sm:py-12 pb-24 flex flex-col items-center justify-center text-center relative z-10">
+      <p v-if="showLine1" class="font-display text-rose-600 text-sm sm:text-base font-medium uppercase tracking-[0.2em] mb-4 animate-fade-in">
         You said yes
       </p>
-      <h1 v-if="showTitle" class="text-2xl sm:text-4xl font-light text-stone-800 mb-6 sm:mb-8 leading-tight [font-family:Georgia,serif] animate-fade-in">
+      <h1 v-if="showTitle" class="font-display text-2xl sm:text-4xl md:text-5xl font-medium text-stone-800 mb-6 sm:mb-8 leading-tight animate-fade-in">
         So here’s what’s next
       </h1>
-      <div v-if="showBody" class="space-y-4 sm:space-y-5 animate-fade-in max-w-md">
-        <p class="text-stone-700 text-base sm:text-lg leading-relaxed [font-family:Georgia,serif]">
-          Valentine’s Day — I’ll be there. I already can’t wait to spend it with you, Sophia. It’s going to be special.
+      <div v-if="showBody" class="space-y-4 sm:space-y-5 animate-fade-in max-w-md font-body">
+        <p class="text-stone-700 text-base sm:text-lg leading-relaxed">
+          Valentine’s Day — I’ll be there, Sophia. I already can’t wait to spend it with you.
         </p>
-        <p class="text-stone-600 text-base sm:text-lg leading-relaxed [font-family:Georgia,serif]">
-          Until then, I’ll be thinking of you. Thank you for saying yes. You’ve made my heart full.
+        <p class="text-stone-600 text-base sm:text-lg leading-relaxed">
+          Until then, I’ll be thinking of you. Thank you for saying yes.
         </p>
       </div>
-      <div v-if="showDivider" class="w-12 h-0.5 bg-rose-300 rounded-full my-8 opacity-80 animate-fade-in" />
-      <p v-if="showClosing" class="text-stone-500 text-sm sm:text-base [font-family:Georgia,serif] animate-fade-in">
-        I’m so glad you’re in my life. I love you, Sophia.
+      <div v-if="showDivider" class="w-16 h-0.5 bg-gradient-to-r from-transparent via-rose-300 to-transparent rounded-full my-8 opacity-90 animate-fade-in" />
+      <p v-if="showClosing" class="font-body text-stone-500 text-sm sm:text-base italic animate-fade-in">
+        I’m glad you’re in my life. I love you, Sophia.
       </p>
       <NuxtLink
         v-if="showCta"
         to="/"
-        class="after-yes-btn touch-target mt-8 animate-fade-in"
+        class="after-yes-btn touch-target mt-8 animate-fade-in font-body font-medium"
       >
         Back to start
       </NuxtLink>
@@ -81,17 +81,19 @@ onMounted(async () => {
   padding: 0.875rem 1.5rem;
   min-height: 48px;
   font-size: 1rem;
-  font-weight: 500;
+  letter-spacing: 0.02em;
   color: #57534e;
   background: #fff;
-  border: 2px solid #d6d3d1;
+  border: 2px solid #e7e5e4;
   border-radius: 9999px;
-  transition: border-color 0.2s, background 0.2s, color 0.2s;
+  transition: border-color 0.2s, background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 .after-yes-btn:hover {
   border-color: var(--accent, #e11d48);
   background: #fef7f8;
   color: var(--accent, #e11d48);
+  box-shadow: 0 4px 14px rgba(225, 29, 72, 0.12);
 }
 @media (max-width: 640px) {
   .after-yes-btn {

@@ -1,18 +1,18 @@
 <template>
-  <div class="min-h-screen page-bg font-sans safe-area-padding question-page">
-    <div class="question-inner max-w-xl mx-auto px-4 sm:px-6 py-8 sm:py-12 pb-20 sm:pb-24 flex flex-col items-center justify-center">
+  <div class="min-h-screen page-bg safe-area-padding question-page relative">
+    <div class="question-inner max-w-xl mx-auto px-4 sm:px-6 py-8 sm:py-12 pb-20 sm:pb-24 flex flex-col items-center justify-center relative z-10">
       <template v-if="!answered">
-        <p v-if="showIntro" class="text-xl sm:text-2xl text-stone-700 mb-4 sm:mb-6 animate-fade-in [font-family:Georgia,serif] text-center">Sophia,</p>
-        <p v-if="showIntro" class="text-stone-500 text-base sm:text-lg mb-6 sm:mb-8 animate-fade-in text-center [font-family:Georgia,serif]">There’s one thing I’ve been wanting to ask you.</p>
+        <p v-if="showIntro" class="font-display text-xl sm:text-2xl text-stone-700 mb-4 sm:mb-6 animate-fade-in text-center">Sophia,</p>
+        <p v-if="showIntro" class="font-body text-stone-500 text-base sm:text-lg mb-6 sm:mb-8 animate-fade-in text-center">There’s one thing I’ve been wanting to ask you.</p>
         <div v-if="showQuestion" class="text-center animate-fade-in w-full flex flex-col items-center">
           <div class="question-card">
-            <h1 class="text-2xl sm:text-4xl font-light text-stone-800 mb-10 sm:mb-12 leading-tight [font-family:Georgia,serif] text-center">
+            <h1 class="font-display text-2xl sm:text-4xl md:text-5xl font-medium text-stone-800 mb-10 sm:mb-12 leading-tight text-center tracking-tight">
               Will you be my Valentine?
             </h1>
             <div class="flex gap-3 sm:gap-4 justify-center flex-wrap">
               <button
                 @click="handleYes"
-                class="btn-yes touch-target"
+                class="btn-yes touch-target font-display font-semibold"
               >
                 Yes
               </button>
@@ -24,7 +24,7 @@
                     ? { position: 'fixed', left: noButtonX + 'px', top: noButtonY + 'px', zIndex: 50 }
                     : {}
                 "
-                class="btn-no touch-target"
+                class="btn-no touch-target font-body"
               >
                 No
               </button>
@@ -76,7 +76,7 @@
             <div class="yes-moment-inner">
               <span class="yes-moment-heart">❤️</span>
               <h2 class="yes-moment-title">She said yes</h2>
-              <p class="yes-moment-sub">Thank you, Sophia.</p>
+              <p class="yes-moment-sub font-body">Thank you, Sophia.</p>
             </div>
           </div>
         </Transition>
@@ -86,11 +86,11 @@
           class="text-center w-full success-content"
           @click="spawnHeart"
         >
-          <h1 class="success-title">You said yes.</h1>
-          <p class="success-sub success-line-1">Thank you, Sophia. You just made me the happiest person.</p>
-          <p class="success-sub success-line-2">I can’t wait to spend Valentine’s Day with you — and every day after.</p>
-          <p class="success-sub success-line-3">You’re the one I’ve been waiting for.</p>
-          <p class="tap-hint">Tap anywhere to add more hearts</p>
+          <h1 class="success-title font-display">You said yes.</h1>
+          <p class="success-sub success-line-1 font-body">Thank you, Sophia. You just made me really happy.</p>
+          <p class="success-sub success-line-2 font-body">I can’t wait to spend Valentine’s Day with you — and every day after.</p>
+          <p class="success-sub success-line-3 font-body">I love you, Sophia.</p>
+          <p class="tap-hint font-body">Tap anywhere to add more hearts</p>
           <div class="success-btns flex flex-col sm:flex-row gap-3 justify-center items-center">
             <NuxtLink
               to="/after-yes"
@@ -213,19 +213,19 @@ function getHeartFloatStyle(i: number) {
   }
 }
 .question-card {
-  background: #fff;
-  border-radius: 1rem;
-  padding: 1.5rem 1.25rem;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.06);
-  border-left: 5px solid var(--accent, #e11d48);
+  background: linear-gradient(180deg, #ffffff 0%, #fefafb 50%, #fef7f8 100%);
+  border-radius: 1.25rem;
+  padding: 1.75rem 1.5rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(255, 255, 255, 0.8), 0 4px 24px rgba(225, 29, 72, 0.12);
+  border-left: 6px solid var(--accent, #e11d48);
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
 }
 @media (min-width: 640px) {
   .question-card {
-    padding: 2.5rem 2rem;
-    border-radius: 1.25rem;
+    padding: 3rem 2.5rem;
+    border-radius: 1.5rem;
   }
 }
 .btn-yes {
@@ -291,7 +291,7 @@ function getHeartFloatStyle(i: number) {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(180deg, rgba(254, 247, 248, 0.97) 0%, rgba(252, 231, 243, 0.97) 100%);
+  background: linear-gradient(180deg, rgba(254, 242, 245, 0.98) 0%, rgba(252, 231, 243, 0.98) 50%, rgba(254, 247, 248, 0.98) 100%);
   padding: 2rem;
 }
 .yes-moment-inner {
@@ -305,7 +305,6 @@ function getHeartFloatStyle(i: number) {
   animation: yes-heart-pulse 1s ease-in-out infinite;
 }
 .yes-moment-title {
-  font-family: Georgia, serif;
   font-size: clamp(1.75rem, 8vw, 3rem);
   font-weight: 600;
   color: #e11d48;
@@ -313,7 +312,6 @@ function getHeartFloatStyle(i: number) {
   letter-spacing: 0.02em;
 }
 .yes-moment-sub {
-  font-family: Georgia, serif;
   font-size: clamp(1rem, 4vw, 1.25rem);
   color: #78716c;
 }
@@ -412,7 +410,6 @@ function getHeartFloatStyle(i: number) {
   cursor: pointer;
 }
 .success-title {
-  font-family: Georgia, serif;
   font-size: clamp(2rem, 6vw, 3.5rem);
   font-weight: 600;
   color: #e11d48;
@@ -420,7 +417,6 @@ function getHeartFloatStyle(i: number) {
   animation: success-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 .success-sub {
-  font-family: Georgia, serif;
   color: #44403c;
   margin-bottom: 0.5rem;
   opacity: 0;
@@ -474,17 +470,20 @@ function getHeartFloatStyle(i: number) {
   transition: border-color 0.2s, background 0.2s, color 0.2s;
 }
 .success-btn-primary {
+  font-family: var(--font-display);
   font-weight: 600;
+  letter-spacing: 0.02em;
   color: #fff;
-  background: var(--accent, #e11d48);
-  border-color: var(--accent, #e11d48);
-  box-shadow: 0 4px 14px rgba(225, 29, 72, 0.35);
+  background: linear-gradient(135deg, var(--accent, #e11d48) 0%, #be123c 100%);
+  border-color: transparent;
+  box-shadow: 0 4px 18px rgba(225, 29, 72, 0.4);
 }
 .success-btn-primary:hover {
-  background: var(--accent-hover, #be123c);
-  border-color: var(--accent-hover, #be123c);
+  background: linear-gradient(135deg, #f43f5e 0%, var(--accent-hover, #be123c) 100%);
+  border-color: transparent;
   color: #fff;
-  box-shadow: 0 6px 20px rgba(225, 29, 72, 0.4);
+  box-shadow: 0 8px 24px rgba(225, 29, 72, 0.45);
+  transform: translateY(-1px);
 }
 .success-btn:hover {
   border-color: #e11d48;

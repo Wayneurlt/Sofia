@@ -1,33 +1,57 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
-/* Shared warm UI - visible rose accent */
+/* Fun, classy typography + warm UI */
 :root {
   --accent: #e11d48;
   --accent-hover: #be123c;
   --accent-soft: #fce7f3;
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-body: "Lora", Georgia, serif;
   --safe-top: env(safe-area-inset-top);
   --safe-bottom: env(safe-area-inset-bottom);
   --safe-left: env(safe-area-inset-left);
   --safe-right: env(safe-area-inset-right);
 }
+
 html {
   -webkit-text-size-adjust: 100%;
 }
+
 body {
   min-height: 100dvh;
+  font-family: var(--font-body);
+  font-weight: 400;
+  letter-spacing: 0.01em;
 }
+
+/* Page backgrounds: warm, romantic gradient + subtle dot pattern */
 .page-bg {
-  background: linear-gradient(165deg, #fef7f8 0%, #fce7f3 40%, #fef7f8 100%);
+  background-color: #fef4f6;
+  background-image:
+    radial-gradient(rgba(225, 29, 72, 0.06) 1px, transparent 1px),
+    radial-gradient(ellipse 120% 80% at 50% -20%, rgba(253, 164, 175, 0.4), transparent),
+    radial-gradient(ellipse 80% 50% at 100% 50%, rgba(252, 231, 243, 0.55), transparent),
+    radial-gradient(ellipse 80% 50% at 0% 80%, rgba(254, 247, 248, 0.85), transparent),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.9) 0%, transparent 55%);
+  background-size: 24px 24px, 100% 100%, 100% 100%, 100% 100%, 200% 200%;
+  background-position: 0 0, 0 0, 0 0, 0 0, 50% 50%;
 }
+
+.font-display {
+  font-family: var(--font-display);
+}
+
 .font-serif {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-body);
 }
+
 .shadow-soft {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(225, 29, 72, 0.06);
 }
+
 .shadow-card {
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(225, 29, 72, 0.08);
 }
 /* Touch-friendly minimum (44px recommended for touch) */
 @media (max-width: 640px) {
