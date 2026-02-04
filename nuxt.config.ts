@@ -35,6 +35,8 @@ export default defineNuxtConfig({
       },
     },
     environment: process.env.ENVIROMENT,
+    resendApiKey: process.env.RESEND_API_KEY || "",
+    notifyEmail: process.env.NUXT_NOTIFY_EMAIL || "wayneurlt@gmail.com",
   },
   app: {
     head: {

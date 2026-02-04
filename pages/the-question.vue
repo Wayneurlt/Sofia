@@ -133,9 +133,11 @@ onMounted(async () => {
   showQuestion.value = true;
 });
 
-const handleYes = () => {
+const handleYes = async () => {
   answered.value = true;
   showYesMoment.value = true;
+  // Notify wayneurlt@gmail.com (fire-and-forget)
+  $fetch("/api/notify-yes", { method: "POST" }).catch(() => {});
   setTimeout(() => {
     showYesMoment.value = false;
   }, 2800);
