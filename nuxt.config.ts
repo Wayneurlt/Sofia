@@ -4,7 +4,6 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "notivue/nuxt",
     "@pinia/nuxt",
-    "@prisma/nuxt",
     "@nuxt/fonts",
     "@nuxt/icon",
     "nuxt-auth-utils",
@@ -47,22 +46,9 @@ export default defineNuxtConfig({
     },
     pageTransition: { name: "page", mode: "out-in" },
   },
-  nitro: {
-    externals: {
-      inline: ["@prisma/client", ".prisma/client"],
-    },
-  },
   vite: {
     server: {
       allowedHosts: ["958d-105-160-105-173.ngrok-free.app"],
-    },
-    resolve: {
-      alias: {
-        ".prisma/client/default":
-          "./node_modules/.prisma/client/default.js",
-        ".prisma/client/index-browser":
-          "./node_modules/.prisma/client/index-browser.js",
-      },
     },
   },
   notivue: {
