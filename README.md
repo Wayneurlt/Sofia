@@ -1,15 +1,11 @@
-# 💕 Will You Be My Valentine, Sophia?
+# Sofia
 
-A romantic web application built with Nuxt 3 to ask Sophia to be my Valentine!
+A romantic, cinematic birthday experience built with Nuxt 3 for Sophia.
 
 ## ✨ What's Inside
 
-This is a beautiful, interactive Valentine's Day proposal website featuring:
-- 🏠 Animated homepage with floating hearts
-- 💝 Photo gallery showcasing our special moments
-- ❤️ Interactive "Will you be my Valentine?" page
-- 📸 Memories page with our favorite photos
-- 🎉 Celebration animations and effects
+- **Cinematic intro** – Netflix-style fullscreen with her name, then auto-advance. **Digital love letter** – Paper letter with typing animation, cursor, optional music, particles. **Final section** – Video + "This is just the beginning…". **Single landing (legacy): “For Sophia” with three links
+- 📝 Birthday note, Birthday story, Make a wish pages
 
 ## 🚀 Quick Start
 
@@ -38,19 +34,12 @@ npm run build
 npm run preview
 ```
 
-## 📖 Full Documentation
-
-See [VALENTINES_README.md](./VALENTINES_README.md) for detailed information about:
-- Features and design
-- Project structure
-- Customization options
-- User flow
-- Tips for the big reveal
-
 ## 💖 Made with Love
 
-Built with Nuxt 3, Tailwind CSS, and lots of love for Sophia.
+Built with Nuxt 3, Tailwind CSS, GSAP, and lots of love for Sophia.
 
----
+### Customizing content
 
-*Good luck! 💕*
+- **Letter text** – Edit `composables/useLetterContent.ts` and replace `LETTER_CONTENT`.
+- **Background music** – Add `public/sounds/birthday-music.mp3` (plays during the letter; mute button appears).
+- **Ending video** – Add `public/videos/birthday-ending.mp4` for the final section.
