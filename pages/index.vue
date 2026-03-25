@@ -3,6 +3,7 @@
     <!-- Section 1: Cinematic Intro -->
     <BirthdayIntro
       v-if="section === 'intro'"
+      name="Sophia"
       @complete="goToLetter"
     />
 

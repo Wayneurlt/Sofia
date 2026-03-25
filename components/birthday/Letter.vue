@@ -17,9 +17,9 @@
       />
     </div>
 
-    <!-- Paper letter: yellow sheet with ruled lines -->
-    <div class="letter-paper relative z-10 mx-4 max-w-xl w-full max-h-[85vh] overflow-y-auto flex flex-col">
-      <div class="letter-inner font-body text-lg sm:text-xl whitespace-pre-wrap">
+    <!-- Paper letter: yellow sheet with ruled lines (mobile-friendly) -->
+    <div class="letter-paper relative z-10 mx-3 sm:mx-4 max-w-xl w-full overflow-y-auto">
+      <div class="letter-inner font-body whitespace-pre-wrap">
         {{ displayedText }}<span v-if="showCursor" class="cursor">|</span>
       </div>
     </div>
@@ -36,10 +36,10 @@ const isFadingOut = ref(false);
 
 const { playTypingSound } = useTypingSound();
 
-const TYPING_BASE_MS = 95;
-const PAUSE_COMMA_MS = 420;
-const PAUSE_PERIOD_MS = 900;
-const PAUSE_NEWLINE_MS = 550;
+const TYPING_BASE_MS = 42;
+const PAUSE_COMMA_MS = 220;
+const PAUSE_PERIOD_MS = 450;
+const PAUSE_NEWLINE_MS = 260;
 
 function getParticleStyle(i: number) {
   const size = 4 + Math.random() * 8;
@@ -60,9 +60,9 @@ function getParticleStyle(i: number) {
 async function typeString(appendText: string) {
   const base = displayedText.value;
   for (let i = 0; i <= appendText.length; i++) {
-    if (i > 0) playTypingSound();
     displayedText.value = base + appendText.slice(0, i);
     const char = appendText[i];
+    if (i > 0) playTypingSound(char);
     let delay = TYPING_BASE_MS;
     if (char === ',') delay = PAUSE_COMMA_MS;
     else if (char === '.' || char === '!' || char === '?') delay = PAUSE_PERIOD_MS;
@@ -74,9 +74,9 @@ async function typeString(appendText: string) {
 async function runTyping() {
   const full = useLetterContent();
   for (let i = 0; i <= full.length; i++) {
-    if (i > 0) playTypingSound();
     displayedText.value = full.slice(0, i);
     const char = full[i];
+    if (i > 0) playTypingSound(char);
     let delay = TYPING_BASE_MS;
     if (char === ',') delay = PAUSE_COMMA_MS;
     else if (char === '.' || char === '!' || char === '?') delay = PAUSE_PERIOD_MS;
@@ -107,6 +107,8 @@ onMounted(() => {
 .letter-section {
   min-height: 100dvh;
   min-height: 100vh;
+  padding: max(0.5rem, env(safe-area-inset-top)) max(0.75rem, env(safe-area-inset-right)) max(0.5rem, env(safe-area-inset-bottom)) max(0.75rem, env(safe-area-inset-left));
+  box-sizing: border-box;
   transition: opacity 2s ease-out;
 }
 .letter-section--fade-out {
@@ -125,7 +127,7 @@ onMounted(() => {
   pointer-events: none;
 }
 
-/* Yellow paper sheet: authentic look */
+/* Yellow paper sheet: authentic look, mobile-friendly */
 .letter-paper {
   --paper: #f5e6c8;
   --paper-dark: #ebdcb8;
@@ -143,30 +145,52 @@ onMounted(() => {
     0 0 0 1px rgba(90, 70, 40, 0.12);
   border-radius: 2px;
   border: 1px solid rgba(120, 95, 50, 0.2);
-  padding: 2rem 2.5rem 2.5rem 3rem;
-  min-height: 280px;
+  padding: 1.25rem 1.5rem 1.5rem 2rem;
+  min-height: 200px;
+  max-height: calc(100dvh - 1.5rem);
+  max-height: calc(100vh - 1.5rem);
+  -webkit-overflow-scrolling: touch;
 }
 
-/* Notepad-style vertical line (optional authentic touch) */
+@media (min-width: 640px) {
+  .letter-paper {
+    padding: 2rem 2.5rem 2.5rem 3rem;
+    min-height: 280px;
+    max-height: 85vh;
+  }
+}
+
+/* Notepad-style vertical line */
 .letter-paper::before {
   content: '';
   position: absolute;
-  left: 1.75rem;
-  top: 2rem;
-  bottom: 2.5rem;
+  left: 1.25rem;
+  top: 1.25rem;
+  bottom: 1.5rem;
   width: 2px;
   background: linear-gradient(to bottom, rgba(180, 80, 60, 0.35), rgba(180, 80, 60, 0.15));
   border-radius: 1px;
   pointer-events: none;
 }
 
-/* Ruled paper: horizontal lines for writing (line height matches rule spacing) */
+@media (min-width: 640px) {
+  .letter-paper::before {
+    left: 1.75rem;
+    top: 2rem;
+    bottom: 2.5rem;
+  }
+}
+
+/* Ruled paper: line height scales for mobile */
 .letter-inner {
-  --line-height: 2rem;
-  min-height: 200px;
+  --line-height: 1.75rem;
+  min-height: 160px;
   color: #3d3528;
-  padding-left: 0.5rem;
+  padding-left: 0.35rem;
   line-height: var(--line-height);
+  font-size: 1rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
   background-image: repeating-linear-gradient(
     to bottom,
     transparent 0,
@@ -175,7 +199,17 @@ onMounted(() => {
     rgba(120, 95, 50, 0.18) var(--line-height)
   );
   background-origin: content-box;
-  background-position: 0 0.25rem;
+  background-position: 0 0.2rem;
+}
+
+@media (min-width: 640px) {
+  .letter-inner {
+    --line-height: 2rem;
+    min-height: 200px;
+    padding-left: 0.5rem;
+    font-size: 1.25rem;
+    background-position: 0 0.25rem;
+  }
 }
 
 .cursor {
