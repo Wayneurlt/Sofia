@@ -23,6 +23,18 @@
         {{ displayedText }}<span v-if="showCursor" class="cursor">|</span>
       </div>
     </div>
+
+    <!-- Pause/resume control for the typing animation -->
+    <button
+      v-if="!isFadingOut"
+      type="button"
+      class="pause-btn absolute z-20"
+      :aria-label="isPaused ? 'Resume letter' : 'Pause letter'"
+      :aria-pressed="isPaused"
+      @click="togglePause"
+    >
+      <span aria-hidden="true">{{ isPaused ? '▶' : '❚❚' }}</span>
+    </button>
   </div>
 </template>
 
@@ -33,6 +45,7 @@ const rootRef = ref<HTMLElement | null>(null);
 const displayedText = ref('');
 const showCursor = ref(true);
 const isFadingOut = ref(false);
+const isPaused = ref(false);
 
 const { playTypingSound } = useTypingSound();
 
@@ -40,6 +53,33 @@ const TYPING_BASE_MS = 42;
 const PAUSE_COMMA_MS = 220;
 const PAUSE_PERIOD_MS = 450;
 const PAUSE_NEWLINE_MS = 260;
+
+let disposed = false;
+
+function togglePause() {
+  isPaused.value = !isPaused.value;
+}
+
+/** Waits `ms` milliseconds, but holds (without losing progress) while isPaused is true. */
+function waitPausable(ms: number) {
+  return new Promise<void>((resolve) => {
+    let remaining = ms;
+    function tick() {
+      if (disposed) {
+        resolve();
+        return;
+      }
+      if (isPaused.value) {
+        setTimeout(tick, 100);
+        return;
+      }
+      const chunk = Math.min(remaining, 50);
+      remaining -= chunk;
+      setTimeout(remaining > 0 ? tick : resolve, chunk);
+    }
+    tick();
+  });
+}
 
 function getParticleStyle(i: number) {
   const size = 4 + Math.random() * 8;
@@ -56,21 +96,6 @@ function getParticleStyle(i: number) {
   };
 }
 
-/** Append text with typing animation to current displayedText */
-async function typeString(appendText: string) {
-  const base = displayedText.value;
-  for (let i = 0; i <= appendText.length; i++) {
-    displayedText.value = base + appendText.slice(0, i);
-    const char = appendText[i];
-    if (i > 0) playTypingSound(char);
-    let delay = TYPING_BASE_MS;
-    if (char === ',') delay = PAUSE_COMMA_MS;
-    else if (char === '.' || char === '!' || char === '?') delay = PAUSE_PERIOD_MS;
-    else if (char === '\n') delay = PAUSE_NEWLINE_MS;
-    await new Promise((r) => setTimeout(r, delay));
-  }
-}
-
 async function runTyping() {
   const full = useLetterContent();
   for (let i = 0; i <= full.length; i++) {
@@ -81,17 +106,11 @@ async function runTyping() {
     if (char === ',') delay = PAUSE_COMMA_MS;
     else if (char === '.' || char === '!' || char === '?') delay = PAUSE_PERIOD_MS;
     else if (char === '\n') delay = PAUSE_NEWLINE_MS;
-    await new Promise((r) => setTimeout(r, delay));
+    await waitPausable(delay);
   }
   // Cursor keeps blinking; nothing for ~5 seconds
-  await new Promise((r) => setTimeout(r, 5000));
-  // Type "Wait…"
-  await typeString('Wait…');
-  await new Promise((r) => setTimeout(r, PAUSE_PERIOD_MS));
-  // New line, then type the line
-  await typeString('\n\nI don\'t think words are enough for you.');
-  await new Promise((r) => setTimeout(r, 2000));
-  // Fade out screen, then go to video
+  await waitPausable(5000);
+  // Fade out screen, then go to final message
   isFadingOut.value = true;
   await new Promise((r) => setTimeout(r, 2200));
   showCursor.value = false;
@@ -100,6 +119,10 @@ async function runTyping() {
 
 onMounted(() => {
   setTimeout(() => runTyping(), 400);
+});
+
+onBeforeUnmount(() => {
+  disposed = true;
 });
 </script>
 
@@ -209,6 +232,47 @@ onMounted(() => {
     padding-left: 0.5rem;
     font-size: 1.25rem;
     background-position: 0 0.25rem;
+  }
+}
+
+/* Pause/resume control: fixed in the corner so it stays reachable regardless of scroll position */
+.pause-btn {
+  top: max(0.75rem, env(safe-area-inset-top));
+  right: max(0.75rem, env(safe-area-inset-right));
+  width: 2.75rem;
+  height: 2.75rem;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 1px solid rgba(245, 230, 200, 0.28);
+  background: rgba(61, 53, 40, 0.72);
+  color: #f5e6c8;
+  font-size: 0.9rem;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: background-color 0.2s ease, transform 0.15s ease, opacity 0.4s ease;
+}
+
+.pause-btn:hover {
+  background: rgba(61, 53, 40, 0.85);
+}
+
+.pause-btn:active {
+  transform: scale(0.92);
+}
+
+@media (min-width: 640px) {
+  .pause-btn {
+    width: 3rem;
+    height: 3rem;
+    font-size: 1rem;
   }
 }
 

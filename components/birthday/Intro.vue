@@ -1,6 +1,6 @@
 <template>
   <div ref="rootRef" class="intro-root fixed inset-0 z-50 bg-black overflow-hidden">
-    <!-- Falling 22s in yellow -->
+    <!-- Falling hearts -->
     <div
       class="rain-layer absolute inset-0"
       :class="{ 'rain-layer--fade': phase === 'netflix' }"
@@ -10,7 +10,7 @@
         <div
           v-for="d in drops"
           :key="d.id"
-          class="drop drop-22"
+          class="drop drop-heart"
           :style="{
             left: d.left + '%',
             animationDuration: d.duration + 's',
@@ -19,7 +19,7 @@
             fontSize: d.size + 'px',
           }"
         >
-          22
+          ♡
         </div>
       </div>
 
@@ -157,11 +157,10 @@ onMounted(() => {
   will-change: transform;
 }
 
-.drop-22 {
-  color: #facc15;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-  text-shadow: 0 0 20px rgba(250, 204, 21, 0.4);
+.drop-heart {
+  color: #fb7185;
+  font-weight: 400;
+  text-shadow: 0 0 20px rgba(251, 113, 133, 0.45);
 }
 
 @keyframes fall {
