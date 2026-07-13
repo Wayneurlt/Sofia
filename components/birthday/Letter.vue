@@ -18,9 +18,9 @@
     </div>
 
     <!-- Paper letter: yellow sheet with ruled lines (mobile-friendly) -->
-    <div class="letter-paper relative z-10 mx-3 sm:mx-4 max-w-xl w-full overflow-y-auto">
+    <div ref="paperRef" class="letter-paper relative z-10 mx-3 sm:mx-4 max-w-xl w-full overflow-y-auto">
       <div class="letter-inner font-body whitespace-pre-wrap">
-        {{ displayedText }}<span v-if="showCursor" class="cursor">|</span>
+        {{ displayedText }}<span ref="endAnchorRef" class="end-anchor" aria-hidden="true" /><span v-if="showCursor" class="cursor">|</span>
       </div>
     </div>
 
@@ -42,6 +42,8 @@
 const emit = defineEmits<{ complete: [] }>();
 
 const rootRef = ref<HTMLElement | null>(null);
+const paperRef = ref<HTMLElement | null>(null);
+const endAnchorRef = ref<HTMLElement | null>(null);
 const displayedText = ref('');
 const showCursor = ref(true);
 const isFadingOut = ref(false);
@@ -81,6 +83,16 @@ function waitPausable(ms: number) {
   });
 }
 
+/** Keeps whatever is currently being typed vertically centered in the visible letter area. */
+async function centerOnCursor() {
+  await nextTick();
+  const container = paperRef.value;
+  const anchor = endAnchorRef.value;
+  if (!container || !anchor) return;
+  const target = anchor.offsetTop - container.clientHeight / 2 + anchor.offsetHeight / 2;
+  container.scrollTop = Math.max(0, target);
+}
+
 function getParticleStyle(i: number) {
   const size = 4 + Math.random() * 8;
   const left = Math.random() * 100;
@@ -106,6 +118,7 @@ async function runTyping() {
     if (char === ',') delay = PAUSE_COMMA_MS;
     else if (char === '.' || char === '!' || char === '?') delay = PAUSE_PERIOD_MS;
     else if (char === '\n') delay = PAUSE_NEWLINE_MS;
+    await centerOnCursor();
     await waitPausable(delay);
   }
   // Cursor keeps blinking; nothing for ~5 seconds
@@ -173,6 +186,8 @@ onBeforeUnmount(() => {
   max-height: calc(100dvh - 1.5rem);
   max-height: calc(100vh - 1.5rem);
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
 }
 
 @media (min-width: 640px) {
@@ -274,6 +289,13 @@ onBeforeUnmount(() => {
     height: 3rem;
     font-size: 1rem;
   }
+}
+
+.end-anchor {
+  display: inline-block;
+  width: 0;
+  height: 1em;
+  vertical-align: middle;
 }
 
 .cursor {
