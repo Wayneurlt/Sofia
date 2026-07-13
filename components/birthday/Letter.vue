@@ -83,14 +83,24 @@ function waitPausable(ms: number) {
   });
 }
 
-/** Keeps whatever is currently being typed vertically centered in the visible letter area. */
+/**
+ * Keeps whatever is currently being typed roughly centered in the visible letter area,
+ * but only nudges the scroll position once the cursor drifts out of a comfortable middle
+ * band — scrolling on every single character makes the text impossible to read on mobile.
+ */
 async function centerOnCursor() {
   await nextTick();
   const container = paperRef.value;
   const anchor = endAnchorRef.value;
   if (!container || !anchor) return;
-  const target = anchor.offsetTop - container.clientHeight / 2 + anchor.offsetHeight / 2;
-  container.scrollTop = Math.max(0, target);
+  const anchorMid = anchor.offsetTop + anchor.offsetHeight / 2;
+  const viewTop = container.scrollTop;
+  const comfortTop = viewTop + container.clientHeight * 0.35;
+  const comfortBottom = viewTop + container.clientHeight * 0.65;
+  if (anchorMid < comfortTop || anchorMid > comfortBottom) {
+    const target = Math.max(0, anchorMid - container.clientHeight / 2);
+    container.scrollTo({ top: target, behavior: 'smooth' });
+  }
 }
 
 function getParticleStyle(i: number) {
