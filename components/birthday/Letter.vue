@@ -112,10 +112,10 @@ const isPaused = ref(false);
 
 const { playTypingSound } = useTypingSound();
 
-const TYPING_BASE_MS = 42;
-const PAUSE_COMMA_MS = 220;
-const PAUSE_PERIOD_MS = 450;
-const PAUSE_NEWLINE_MS = 260;
+const TYPING_BASE_MS = 26;
+const PAUSE_COMMA_MS = 140;
+const PAUSE_PERIOD_MS = 280;
+const PAUSE_NEWLINE_MS = 160;
 const FLIP_DURATION_MS = 650;
 const PAGE_READ_PAUSE_MS = 1400;
 
@@ -301,8 +301,11 @@ function goNext() {
 }
 
 function goPrev() {
-  if (isFadingOut.value || isFlipping.value || isTyping.value) return;
+  if (isFadingOut.value || isFlipping.value) return;
   if (pageIndex.value <= 0) return;
+  if (isTyping.value) {
+    completeCurrentTyping();
+  }
   flipTo(pageIndex.value - 1, 'backward');
 }
 
