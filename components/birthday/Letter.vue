@@ -25,17 +25,13 @@
     >
       <div class="leaf" :class="leafClasses('A')">
         <div ref="paperRef" class="leaf-face leaf-face--front letter-paper">
-          <div ref="letterInnerRef" class="letter-inner font-body whitespace-pre-wrap">
-            {{ leaves.A }}<span v-if="topLeaf === 'A' && showCursor" class="cursor">|</span>
-          </div>
+          <div ref="letterInnerRef" class="letter-inner font-body whitespace-pre-wrap">{{ leaves.A }}</div>
         </div>
         <div class="leaf-face leaf-face--back" />
       </div>
       <div class="leaf" :class="leafClasses('B')">
         <div class="leaf-face leaf-face--front letter-paper">
-          <div class="letter-inner font-body whitespace-pre-wrap">
-            {{ leaves.B }}<span v-if="topLeaf === 'B' && showCursor" class="cursor">|</span>
-          </div>
+          <div class="letter-inner font-body whitespace-pre-wrap">{{ leaves.B }}</div>
         </div>
         <div class="leaf-face leaf-face--back" />
       </div>
@@ -71,18 +67,6 @@
         <span aria-hidden="true">›</span>
       </button>
     </template>
-
-    <!-- Pause/resume control for the typing animation -->
-    <button
-      v-if="!isFadingOut"
-      type="button"
-      class="pause-btn absolute z-20"
-      :aria-label="isPaused ? 'Resume letter' : 'Pause letter'"
-      :aria-pressed="isPaused"
-      @click="togglePause"
-    >
-      <span aria-hidden="true">{{ isPaused ? '▶' : '❚❚' }}</span>
-    </button>
   </div>
 </template>
 
@@ -99,35 +83,19 @@ type LeafKey = 'A' | 'B';
 
 const pages = ref<string[]>([]);
 const pageIndex = ref(0);
-const maxTypedIndex = ref(-1);
 const leaves = reactive<{ A: string; B: string }>({ A: '', B: '' });
 const topLeaf = ref<LeafKey>('A');
 const isFlipping = ref(false);
 const flipDir = ref<'forward' | 'backward' | null>(null);
-const isTyping = ref(false);
 
-const showCursor = ref(true);
 const isFadingOut = ref(false);
-const isPaused = ref(false);
 
-const { playTypingSound } = useTypingSound();
-
-const TYPING_BASE_MS = 26;
-const PAUSE_COMMA_MS = 140;
-const PAUSE_PERIOD_MS = 280;
-const PAUSE_NEWLINE_MS = 160;
 const FLIP_DURATION_MS = 650;
-const PAGE_READ_PAUSE_MS = 1400;
 
 let disposed = false;
 let endingStarted = false;
-let typingGen = 0;
 let touchStartX = 0;
 let touchStartY = 0;
-
-function togglePause() {
-  isPaused.value = !isPaused.value;
-}
 
 function leafClasses(key: LeafKey) {
   const isTop = topLeaf.value === key;
@@ -136,27 +104,6 @@ function leafClasses(key: LeafKey) {
     'leaf--flip-forward': isFlipping.value && isTop && flipDir.value === 'forward',
     'leaf--flip-backward': isFlipping.value && isTop && flipDir.value === 'backward',
   };
-}
-
-/** Waits `ms` milliseconds, but holds (without losing progress) while isPaused is true. */
-function waitPausable(ms: number) {
-  return new Promise<void>((resolve) => {
-    let remaining = ms;
-    function tick() {
-      if (disposed) {
-        resolve();
-        return;
-      }
-      if (isPaused.value) {
-        setTimeout(tick, 100);
-        return;
-      }
-      const chunk = Math.min(remaining, 50);
-      remaining -= chunk;
-      setTimeout(remaining > 0 ? tick : resolve, chunk);
-    }
-    tick();
-  });
 }
 
 /** Splits `text` into page-sized chunks that fit within `pageHeightPx`, measured using `measurerEl`. */
@@ -216,47 +163,21 @@ function getParticleStyle(i: number) {
   };
 }
 
-async function typeIntoLeaf(key: LeafKey, text: string) {
-  const gen = ++typingGen;
-  isTyping.value = true;
-  for (let i = 0; i <= text.length; i++) {
-    if (disposed || gen !== typingGen) return;
-    leaves[key] = text.slice(0, i);
-    const char = text[i];
-    if (i > 0) playTypingSound(char);
-    let delay = TYPING_BASE_MS;
-    if (char === ',') delay = PAUSE_COMMA_MS;
-    else if (char === '.' || char === '!' || char === '?') delay = PAUSE_PERIOD_MS;
-    else if (char === '\n') delay = PAUSE_NEWLINE_MS;
-    await waitPausable(delay);
-  }
-  if (gen === typingGen) isTyping.value = false;
-}
-
-/** Skips straight to the finished text for whatever is currently being typed. */
-function completeCurrentTyping() {
-  typingGen++;
-  leaves[topLeaf.value] = pages.value[pageIndex.value] ?? '';
-  isTyping.value = false;
-}
-
 async function proceedToEnding() {
   if (endingStarted || disposed) return;
   endingStarted = true;
   isFadingOut.value = true;
   await new Promise((r) => setTimeout(r, 2200));
-  showCursor.value = false;
   emit('complete');
 }
 
-/** Folds the current page away in `direction` and unfolds the target page underneath. */
+/** Folds the current page away in `direction` and unfolds the target page underneath, already fully written. */
 async function flipTo(targetIndex: number, direction: 'forward' | 'backward') {
   if (isFlipping.value || disposed) return;
   const outgoingKey = topLeaf.value;
   const incomingKey: LeafKey = outgoingKey === 'A' ? 'B' : 'A';
-  const isNewPage = targetIndex > maxTypedIndex.value;
 
-  leaves[incomingKey] = isNewPage ? '' : (pages.value[targetIndex] ?? '');
+  leaves[incomingKey] = pages.value[targetIndex] ?? '';
 
   flipDir.value = direction;
   isFlipping.value = true;
@@ -266,33 +187,10 @@ async function flipTo(targetIndex: number, direction: 'forward' | 'backward') {
   flipDir.value = null;
   topLeaf.value = incomingKey;
   pageIndex.value = targetIndex;
-
-  if (isNewPage) {
-    maxTypedIndex.value = targetIndex;
-    await typeIntoLeaf(incomingKey, pages.value[targetIndex]);
-    if (disposed) return;
-    await autoContinueFrom(targetIndex);
-  }
-}
-
-/** Once a page finishes typing for the first time, the book turns itself — unless the reader has moved on already. */
-async function autoContinueFrom(index: number) {
-  const isLastPage = index === pages.value.length - 1;
-  await waitPausable(isLastPage ? 5000 : PAGE_READ_PAUSE_MS);
-  if (disposed || pageIndex.value !== index) return;
-  if (isLastPage) {
-    proceedToEnding();
-  } else {
-    flipTo(index + 1, 'forward');
-  }
 }
 
 function goNext() {
   if (isFadingOut.value || isFlipping.value) return;
-  if (isTyping.value) {
-    completeCurrentTyping();
-    return;
-  }
   if (pageIndex.value >= pages.value.length - 1) {
     proceedToEnding();
     return;
@@ -303,9 +201,6 @@ function goNext() {
 function goPrev() {
   if (isFadingOut.value || isFlipping.value) return;
   if (pageIndex.value <= 0) return;
-  if (isTyping.value) {
-    completeCurrentTyping();
-  }
   flipTo(pageIndex.value - 1, 'backward');
 }
 
@@ -324,17 +219,14 @@ function onTouchEnd(e: TouchEvent) {
   else goPrev();
 }
 
-async function runTyping() {
+async function initBook() {
   await preparePages();
   if (pages.value.length === 0 || disposed) return;
-  maxTypedIndex.value = 0;
-  await typeIntoLeaf('A', pages.value[0]);
-  if (disposed) return;
-  await autoContinueFrom(0);
+  leaves[topLeaf.value] = pages.value[0];
 }
 
 onMounted(() => {
-  setTimeout(() => runTyping(), 400);
+  initBook();
 });
 
 onBeforeUnmount(() => {
@@ -652,60 +544,6 @@ onBeforeUnmount(() => {
 
 .nav-btn:active {
   transform: translateY(-50%) scale(0.92);
-}
-
-/* Pause/resume control: fixed in the corner so it stays reachable regardless of scroll position */
-.pause-btn {
-  top: max(0.75rem, env(safe-area-inset-top));
-  right: max(0.75rem, env(safe-area-inset-right));
-  width: 2.75rem;
-  height: 2.75rem;
-  min-width: 44px;
-  min-height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  border: 1px solid rgba(245, 230, 200, 0.28);
-  background: rgba(61, 53, 40, 0.72);
-  color: #f5e6c8;
-  font-size: 0.9rem;
-  line-height: 1;
-  letter-spacing: 0.05em;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-  transition: background-color 0.2s ease, transform 0.15s ease, opacity 0.4s ease;
-}
-
-.pause-btn:hover {
-  background: rgba(61, 53, 40, 0.85);
-}
-
-.pause-btn:active {
-  transform: scale(0.92);
-}
-
-@media (min-width: 640px) {
-  .pause-btn {
-    width: 3rem;
-    height: 3rem;
-    font-size: 1rem;
-  }
-}
-
-.cursor {
-  display: inline-block;
-  font-weight: 300;
-  color: var(--accent, #e11d48);
-  animation: blink 0.9s step-end infinite;
-}
-
-@keyframes blink {
-  50% {
-    opacity: 0;
-  }
 }
 
 @keyframes float {
