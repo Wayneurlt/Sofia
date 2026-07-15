@@ -1,11 +1,11 @@
 <template>
-  <div ref="rootRef" class="intro-root fixed inset-0 z-50 bg-black overflow-hidden">
+  <div
+    ref="rootRef"
+    class="intro-root fixed inset-0 z-50 bg-black overflow-hidden"
+    :class="{ 'intro-root--fade-out': isExiting }"
+  >
     <!-- Falling hearts -->
-    <div
-      class="rain-layer absolute inset-0"
-      :class="{ 'rain-layer--fade': phase === 'netflix' }"
-      aria-hidden="true"
-    >
+    <div class="rain-layer absolute inset-0" aria-hidden="true">
       <div class="rain-field pointer-events-none absolute inset-0">
         <div
           v-for="d in drops"
@@ -23,20 +23,9 @@
         </div>
       </div>
 
-      <!-- Centered: "Sophia" -->
+      <!-- Centered name -->
       <div class="rain-center">
-        <div class="rain-title font-display">Sophia</div>
-      </div>
-    </div>
-
-    <!-- Netflix-style name (after countdown) -->
-    <div class="netflix-layer absolute inset-0 flex items-center justify-center">
-      <div
-        ref="textRef"
-        class="intro-text font-display text-white text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-[0.2em] uppercase opacity-0"
-        style="text-shadow: 0 0 40px rgba(255,255,255,0.5), 0 0 80px rgba(255,255,255,0.3);"
-      >
-        {{ name }}
+        <div class="rain-title font-display">{{ name }}</div>
       </div>
     </div>
   </div>
@@ -50,9 +39,7 @@ const props = withDefaults(
 
 const emit = defineEmits<{ complete: [] }>();
 const rootRef = ref<HTMLElement | null>(null);
-const textRef = ref<HTMLElement | null>(null);
-
-const phase = ref<'rain' | 'netflix'>('rain');
+const isExiting = ref(false);
 
 type Drop = {
   id: number;
@@ -83,37 +70,14 @@ function buildDrops() {
   drops.value = out;
 }
 
-async function startNetflix() {
-  phase.value = 'netflix';
-  await new Promise((r) => setTimeout(r, 600));
-
-  if (!textRef.value || !rootRef.value) return;
-
-  const gsap = (await import('gsap')).default;
-  const text = textRef.value;
-  const tl = gsap.timeline({
-    onComplete: () => {
-      gsap.to(rootRef.value, {
-        duration: 1.2,
-        opacity: 0,
-        ease: 'power2.inOut',
-        onComplete: () => emit('complete'),
-      });
-    },
-  });
-
-  tl.fromTo(
-    text,
-    { opacity: 0, scale: 0.8, filter: 'blur(8px)' },
-    { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 1.8, ease: 'power2.out' }
-  )
-    .to(text, { duration: 2.2, scale: 1.05, opacity: 1, ease: 'power1.inOut' })
-    .to(text, { duration: 1.5, opacity: 0.95, scale: 1.02, ease: 'power1.inOut' });
+function finishIntro() {
+  isExiting.value = true;
+  setTimeout(() => emit('complete'), 900);
 }
 
 onMounted(() => {
   buildDrops();
-  setTimeout(() => startNetflix(), 4000);
+  setTimeout(() => finishIntro(), 4000);
 });
 </script>
 
@@ -121,13 +85,10 @@ onMounted(() => {
 .intro-root {
   min-height: 100dvh;
   min-height: 100vh;
+  transition: opacity 0.9s ease-out;
 }
 
-.rain-layer {
-  opacity: 1;
-  transition: opacity 0.8s ease-out;
-}
-.rain-layer--fade {
+.intro-root--fade-out {
   opacity: 0;
 }
 

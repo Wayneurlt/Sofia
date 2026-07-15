@@ -14,7 +14,21 @@ I never want to become so comfortable that I stop appreciating the woman standin
 
 Now I smile at the little things that make her, her. The way music can completely change her mood. The way she somehow enjoys eating charcoal. The way she adds so much chilli to her food that I wonder if she can even taste anything else. Those little quirks that make everyone else raise an eyebrow are some of my favorite things about her because they're uniquely hers.
 
-Sophia, thank you for being exactly who you are. Thank you for choosing me. As long as you do, I'll never stop choosing you back, with gratitude, with intention, and with the kind of love that never lets your presence become something I simply expect. You deserve to be appreciated every single day, and that's exactly how I want to love you.`;
+Sophia, thank you for being exactly who you are. Thank you for choosing me. As long as you do, I'll never stop choosing you back, with gratitude, with intention, and with the kind of love that never lets your presence become something I simply expect. You deserve to be appreciated every single day, and that's exactly how I want to love you.
+
+Never forget that I love you.
+
+Even on days when I'm quiet or tired, or not the best version of myself,
+
+I love you when we laugh, I love you when we disagree, I love you when life feels easy, and I love you even more when things get hard..
+
+You are not just someone I care about, you are the one I choose over and over without hesitation..
+
+You are my peace, my heart, my everything, so if you ever doubt where we stand, if the world ever feels too loud or confusing..
+
+come back to this and remember, I'm here, I'm not going anywhere..
+
+and I love you always❤️`;
 
 
 
